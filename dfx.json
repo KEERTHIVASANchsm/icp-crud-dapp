@@ -1,0 +1,38 @@
+{
+  "canisters": {
+    "icp_crud_dapp_backend": {
+      "candid": "src/icp_crud_dapp_backend/icp_crud_dapp_backend.did",
+      "package": "icp_crud_dapp_backend",
+      "type": "rust"
+    },
+    "icp_crud_dapp_frontend": {
+      "dependencies": [
+        "icp_crud_dapp_backend"
+      ],
+      "source": [
+        "src/icp_crud_dapp_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "icp_crud_dapp_frontend"
+    },
+    "internet_identity": {
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "frontend": {},
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "type": "custom",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

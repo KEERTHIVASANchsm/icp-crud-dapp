@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "src/icp_crud_dapp_backend"
+]
+resolver = "2"
