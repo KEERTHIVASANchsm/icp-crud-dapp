@@ -1,61 +1,108 @@
-# `icp_crud_dapp`
+# 🌐 ICP CRUD dApp — Internet Computer Protocol
 
-Welcome to your new `icp_crud_dapp` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+A full-stack decentralised application built on the **Internet Computer Protocol (ICP)**, implementing complete CRUD operations with a **Rust backend canister** and a **React frontend** — both deployed entirely on-chain with no traditional cloud infrastructure.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+---
 
-To learn more before you start working with `icp_crud_dapp`, see the following documentation available online:
+## 🧠 What Makes This Different
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+Most "decentralised" apps host their frontend on AWS or Vercel and only put transactions on-chain. This project goes further — both the backend logic **and** the frontend run as ICP canisters, making the entire application truly decentralised.
 
-If you want to start working on your project right away, you might want to try the following commands:
+---
+
+## 🏗 Architecture
+
+```
+┌─────────────────────────────────────┐
+│         React Frontend              │
+│    (deployed as ICP asset canister) │
+└────────────────┬────────────────────┘
+                 │  Candid interface calls
+┌────────────────▼────────────────────┐
+│         Rust Backend Canister       │
+│                                     │
+│  create_record()                    │
+│  read_record(id)                    │
+│  update_record(id, data)            │
+│  delete_record(id)                  │
+│  list_all_records()                 │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend** | Rust (ICP canister) |
+| **Frontend** | React + JavaScript |
+| **Interface** | Candid (ICP's interface description language) |
+| **Network** | Internet Computer Protocol |
+| **Local Dev** | DFX SDK |
+
+---
+
+## 🚀 Running Locally
+
+### Prerequisites
+- [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install) installed
+- Node.js 16+
+- Rust toolchain
 
 ```bash
 cd icp_crud_dapp/
+
+# Start local ICP replica in background
+dfx start --background
+
+# Deploy canisters and generate Candid interface
+dfx deploy
+```
+
+Your app will be available at:
+```
+http://localhost:4943?canisterId={asset_canister_id}
+```
+
+### Frontend Development
+
+```bash
+# Regenerate Candid interface after backend changes
+npm run generate
+
+# Start frontend dev server (proxies to replica at port 4943)
+npm start
+# → http://localhost:8080
+```
+
+### Useful Commands
+
+```bash
 dfx help
 dfx canister --help
 ```
 
-## Running the project locally
+---
 
-If you want to test your project locally, you can use the following commands:
+## 📚 Learning Resources
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+- [Quick Start — Deploy Locally](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
+- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
+- [ic-cdk docs](https://docs.rs/ic-cdk)
+- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+---
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+## 💡 What I Learned
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+- How **Candid** works as a language-agnostic interface between frontend and backend canisters
+- Why **Rust's ownership model** suits canister development — memory safety without garbage collection
+- The difference between ICP's **actor model** and Ethereum's account model
+- How **on-chain frontend hosting** changes the trust assumptions of a dApp
 
-```bash
-npm run generate
-```
+---
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+## 📌 Context
 
-If you are making frontend changes, you can start a development server with
-
-```bash
-npm start
-```
-
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
-
-### Note on frontend environment variables
-
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
-
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+Built during active involvement with the **ICP Hub community** and my blockchain internship at BlockseBlock (2025). Represents a shift from Ethereum-centric development toward exploring alternative L1 architectures.
